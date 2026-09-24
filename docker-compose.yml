@@ -1,0 +1,24 @@
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: contact-app
+    ports:
+      - "3000:8081"
+    environment:
+      PORT: 8081
+      MONGO_URI: mongodb://mongodb:27017
+      DB_NAME: mongodb
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:8.0
+    container_name: mongodb
+    volumes:
+      - mongodb-data:/data/db
+
+volumes:
+  mongodb-data:

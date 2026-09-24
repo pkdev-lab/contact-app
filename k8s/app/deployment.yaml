@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contact-app
+  namespace: contact-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: contact-app
+  template:
+    metadata:
+      labels:
+        app: contact-app
+    spec:
+      containers:
+        - name: contact-app
+          image: contact-form-app:1.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8081
+          env:
+            - name: PORT
+              value: "8081"
+            - name: MONGO_URI
+              value: "mongodb://mongodb:27017"
+            - name: DB_NAME
+              value: "mongodb"
