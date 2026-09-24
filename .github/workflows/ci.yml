@@ -30,3 +30,9 @@ jobs:
 
             - name: Run tests
               run: npm test
+
+            - name: Build Docker Image
+              run: |
+                docker build \
+                -t contact-form-app:${{ github.sha }} \
+                .
