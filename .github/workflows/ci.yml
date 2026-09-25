@@ -45,9 +45,3 @@ jobs:
                 tags: |
                     ${{ secrets.DOCKERHUB_USERNAME }}/contact-form-app:${{ github.sha }}
                     ${{ secrets.DOCKERHUB_USERNAME }}/contact-form-app:latest
-
-            - name: Build Docker Image
-              run: |
-                docker build \
-                -t contact-form-app:${{ github.sha }} \
-                .

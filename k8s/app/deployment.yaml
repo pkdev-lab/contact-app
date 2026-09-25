@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
         - name: contact-app
-          image: contact-form-app:1.0
-          imagePullPolicy: Never
+          image: prashantkumar1911/contact-form-app:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8081
           env:
