@@ -1,7 +1,12 @@
 name: CD
 
 on:
-    workflow_dispatch: 
+    workflow_dispatch:
+        inputs:
+            image_tag:
+                description: "Docker Image tag to deploy"
+                required: true
+                type: string
 
 jobs:
     deploy:
@@ -15,13 +20,16 @@ jobs:
               run: kubectl get nodes
 
             - name: Deploy application
+              shell: bash
               run: |
-                kubectl apply -f k8s/app/deployment.yaml
-                kubectl apply -f k8s/app/service.yaml
+                kubectl -n contact-app set image deployment/contact-app \
+                contact-app=${{ secrets.DOCKERHUB_USERNAME }}/contact-form-app:${{ inputs.image_tag }}
 
             - name: Wait for rollout
               run: |
-                kubectl rollout status deployment/contact-app -n contact-app
+                kubectl rollout status deployment/contact-app \
+                  -n contact-app \
+                  --timeout=120s
 
             - name: Verify deployment
               run: |
