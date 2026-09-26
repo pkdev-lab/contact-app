@@ -17,21 +17,24 @@ jobs:
               uses: actions/checkout@v4
 
             - name: Check kubernetes
+              shell: pwsh
               run: kubectl get nodes
 
             - name: Deploy application
-              shell: bash
+              shell: pwsh
               run: |
                 kubectl -n contact-app set image deployment/contact-app \
                 contact-app=${{ secrets.DOCKERHUB_USERNAME }}/contact-form-app:${{ inputs.image_tag }}
 
             - name: Wait for rollout
+              shell: pwsh
               run: |
                 kubectl rollout status deployment/contact-app \
                   -n contact-app \
                   --timeout=120s
 
             - name: Verify deployment
+              shell: pwsh
               run: |
                 kubectl get pods -n contact-app
                 kubectl get deployment contact-app -n contact-app
